@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>August 2024 | Social Media Campaign Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- 
+    Narrative Plan:
+    1. Introduction & Headline KPI: Start with the total campaign budget as a hook.
+    2. Budget & Platform Analysis: Break down the budget by platform (Peugeot vs. Carmart) and by marketing funnel stage to show strategic allocation.
+    3. Content Strategy Overview: Visualize the number of posts per platform and per funnel stage to clarify content focus.
+    4. Marketing Funnel Flow: Create a visual diagram of the customer journey (TOFU, MOFU, BOFU) and place the campaign types within it.
+    5. Detailed Campaign Timeline (Gantt Chart): Provide a clear, visual schedule of all posts throughout the month.
+    6. Conclusion: A brief summary of the campaign's goals.
+
+    Visualization Choices:
+    - Total Budget: Goal: Inform -> Chosen Viz: Single Big Number -> Justification: Creates a high-impact focal point for the key investment figure. Implemented with HTML/Tailwind. (NO SVG).
+    - Budget by Platform: Goal: Compare -> Chosen Viz: Donut Chart -> Justification: Ideal for showing the simple proportional breakdown between two main entities. Implemented with Chart.js/Canvas. (NO SVG).
+    - Budget by Funnel Stage: Goal: Compare -> Chosen Viz: Donut Chart -> Justification: Effectively displays the composition of spending across the marketing funnel stages. Implemented with Chart.js/Canvas. (NO SVG).
+    - Post Count by Platform: Goal: Compare -> Chosen Viz: Bar Chart -> Justification: Best for a straightforward comparison of post volume across the two platforms. Implemented with Chart.js/Canvas. (NO SVG).
+    - Funnel Flow Diagram: Goal: Organize -> Chosen Viz: Flow Chart -> Justification: Clearly illustrates the process and relationships between funnel stages and post types. Implemented with structured HTML/CSS with Tailwind. (NO SVG, NO MERMAID JS).
+    - Campaign Timeline: Goal: Change/Organize -> Chosen Viz: Timeline/Gantt Chart -> Justification: Provides the clearest possible visualization of post timing, duration, and overlap. Implemented with structured HTML/CSS with Tailwind. (NO SVG).
+    
+    Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in this output. All visualizations are rendered using Chart.js/Canvas or structured HTML/CSS with Tailwind CSS.
+    
+    Color Palette Selection: "Brilliant Blues" - Chosen for its vibrant, modern, and professional look that conveys innovation and trustworthiness, suitable for the automotive brands.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#003F5C] mb-2">August 2024 Social Media Campaign</h1>
+            <p class="text-lg text-gray-600">A Visual Overview for Peugeot & Carmart</p>
+        </header>
+
+        <section id="kpis" class="mb-12">
+            <div class="bg-white rounded-xl shadow-lg p-8 text-center">
+                <p class="text-lg font-medium text-gray-500 mb-2">Total Combined Boost Budget</p>
+                <h2 class="text-7xl font-extrabold text-[#003F5C]">LKR 246,000</h2>
+                <p class="text-md text-gray-500 mt-3">Driving awareness, consideration, and conversion across all platforms.</p>
+            </div>
+        </section>
+        
+        <section id="budget-analysis" class="mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <h3 class="text-2xl font-bold text-center mb-4 text-[#003F5C]">Budget Allocation by Platform</h3>
+                    <p class="text-center text-gray-600 mb-4">This chart shows how the total budget is split between the Peugeot and Carmart pages, focusing investment on key brand initiatives.</p>
+                    <div class="chart-container">
+                        <canvas id="budgetByPlatformChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <h3 class="text-2xl font-bold text-center mb-4 text-[#003F5C]">Investment by Funnel Stage</h3>
+                     <p class="text-center text-gray-600 mb-4">Our spending is strategically weighted towards building awareness and consideration, guiding customers towards the final conversion goal.</p>
+                    <div class="chart-container">
+                        <canvas id="budgetByFunnelChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="content-strategy" class="mb-12">
+             <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-2xl font-bold text-center mb-4 text-[#003F5C]">Content Volume & Focus</h3>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">This bar chart breaks down the number of posts planned for each platform, distinguishing between paid (boosted) and organic content to highlight our content distribution strategy.</p>
+                <div class="chart-container !max-w-4xl h-[400px] md:h-[500px] !max-h-[500px]">
+                    <canvas id="postCountChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="funnel-flow" class="mb-12">
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h3 class="text-2xl font-bold text-center mb-4 text-[#003F5C]">The Customer Journey</h3>
+                <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto">This flow illustrates our full-funnel approach. We start by capturing broad attention (TOFU), then nurture interest with detailed content (MOFU), and finally drive action with targeted posts (BOFU).</p>
+                <div class="flex flex-col md:flex-row justify-between items-center text-center gap-4">
+
+                    <div class="flex-1 flex flex-col items-center">
+                        <div class="bg-[#2F4B7C] text-white rounded-full w-24 h-24 flex items-center justify-center text-lg font-bold shadow-md">TOFU</div>
+                        <p class="font-semibold mt-3 text-lg">Awareness</p>
+                        <div class="text-sm text-gray-600 p-3 bg-gray-50 rounded-lg mt-2 w-full">
+                           <p class="font-bold mb-1">Posts:</p>
+                           <p>🚀 "Unleash the Lion" Launch</p>
+                           <p>🏛️ Carmart Heritage</p>
+                           <p>❓ Leapmotor Teasers</p>
+                           <p>✨ "Unleash The Style" Reel</p>
+                        </div>
+                    </div>
+                    
+                    <div class="text-4xl text-[#FFA600] font-thin hidden md:block mx-4">→</div>
+                     <div class="text-4xl text-[#FFA600] font-thin md:hidden my-4">↓</div>
+
+                    <div class="flex-1 flex flex-col items-center">
+                        <div class="bg-[#665191] text-white rounded-full w-24 h-24 flex items-center justify-center text-lg font-bold shadow-md">MOFU</div>
+                        <p class="font-semibold mt-3 text-lg">Consideration</p>
+                         <div class="text-sm text-gray-600 p-3 bg-gray-50 rounded-lg mt-2 w-full">
+                            <p class="font-bold mb-1">Posts:</p>
+                           <p>🚗 Model Focus Reels</p>
+                           <p>👍 Owner Testimonials</p>
+                           <p>🤝 "The Carmart Family"</p>
+                           <p>🛠️ "The Promise of Service"</p>
+                        </div>
+                    </div>
+
+                    <div class="text-4xl text-[#FFA600] font-thin hidden md:block mx-4">→</div>
+                    <div class="text-4xl text-[#FFA600] font-thin md:hidden my-4">↓</div>
+                    
+                    <div class="flex-1 flex flex-col items-center">
+                        <div class="bg-[#A05195] text-white rounded-full w-24 h-24 flex items-center justify-center text-lg font-bold shadow-md">BOFU</div>
+                        <p class="font-semibold mt-3 text-lg">Conversion</p>
+                         <div class="text-sm text-gray-600 p-3 bg-gray-50 rounded-lg mt-2 w-full">
+                           <p class="font-bold mb-1">Posts:</p>
+                           <p>🎯 Leapmotor "Be The First"</p>
+                           <p class="opacity-50">(Future: Lead Gen Ads)</p>
+                           <p class="opacity-50">(Future: Test Drive Offers)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline" class="mb-12">
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 overflow-x-auto">
+                 <h3 class="text-2xl font-bold text-center mb-4 text-[#003F5C]">August Campaign Timeline</h3>
+                 <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">The Gantt chart below provides a day-by-day visualization of our campaign schedule, showing the start dates and durations for all boosted posts and the timing of organic content.</p>
+                <table class="w-full min-w-[800px] border-collapse text-sm">
+                    <thead>
+                        <tr class="border-b-2 border-gray-200">
+                            <th class="p-3 text-left font-semibold text-gray-700 w-1/4">Platform / Post</th>
+                            <th class="p-3 text-center font-semibold text-gray-700">Wk 1 (4-10)</th>
+                            <th class="p-3 text-center font-semibold text-gray-700">Wk 2 (11-17)</th>
+                            <th class="p-3 text-center font-semibold text-gray-700">Wk 3 (18-24)</th>
+                            <th class="p-3 text-center font-semibold text-gray-700">Wk 4 (25-31)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-600">
+                        <tr class="border-b border-gray-100"><td class="p-3 font-medium">Peugeot: "Unleash the Lion" Video</td><td colspan="4"><div class="bg-[#003F5C] text-white text-xs rounded-full h-5" style="width: 25%; margin-left: 0%;"></div></td></tr>
+                        <tr class="border-b border-gray-100"><td class="p-3 font-medium">Carmart: Heritage Post</td><td colspan="4"><div class="bg-[#D45087] text-white text-xs rounded-full h-5" style="width: 17.8%; margin-left: 0%;"></div></td></tr>
+                        <tr class="border-b border-gray-100"><td class="p-3 font-medium">Peugeot: Model Focus - 2008</td><td class="p-3 text-center text-[#665191] font-bold">●</td><td></td><td></td><td></td></tr>
+                        <tr class="border-b border-gray-100"><td class="p-3 font-medium">Carmart: Leapmotor Teaser 1</td><td colspan="4"><div class="bg-[#FF7C43] text-white text-xs rounded-full h-5" style="width: 25%; margin-left: 14.3%;"></div></td></tr>
+                        <tr class="border-b border-gray-100"><td class="p-3 font-medium">Peugeot: Owner Testimonial 1</td><td colspan="4"><div class="bg-[#003F5C] text-white text-xs rounded-full h-5" style="width: 17.8%; margin-left: 25%;"></div></td></tr>
+                        <tr class="border-b border-gray-100"><td class="p-3 font-medium">Carmart: "The Carmart Family"</td><td colspan="4"><div class="bg-[#D45087] text-white text-xs rounded-full h-5" style="width: 14.3%; margin-left: 32.1%;"></div></td></tr>
+                        <tr class="border-b border-gray-100"><td class="p-3 font-medium">Peugeot: Tech Focus - i-Cockpit™</td><td></td><td class="p-3 text-center text-[#665191] font-bold">●</td><td></td><td></td></tr>
+                        <tr class="border-b border-gray-100"><td class="p-3 font-medium">Carmart: Leapmotor Teaser 2</td><td colspan="4"><div class="bg-[#FF7C43] text-white text-xs rounded-full h-5" style="width: 25%; margin-left: 46.4%;"></div></td></tr>
+                        <tr class="border-b border-gray-100"><td class="p-3 font-medium">Carmart: "The Promise of Service"</td><td colspan="4"><div class="bg-[#D45087] text-white text-xs rounded-full h-5" style="width: 17.8%; margin-left: 50%;"></div></td></tr>
+                        <tr class="border-b border-gray-100"><td class="p-3 font-medium">Peugeot: Model Focus - e-2008</td><td></td><td></td><td class="p-3 text-center text-[#665191] font-bold">●</td><td></td></tr>
+                        <tr class="border-b border-gray-100"><td class="p-3 font-medium">Peugeot: "Unleash The Style" Reel</td><td colspan="4"><div class="bg-[#003F5C] text-white text-xs rounded-full h-5" style="width: 10.7%; margin-left: 64.3%;"></div></td></tr>
+                        <tr class="border-b border-gray-100"><td class="p-3 font-medium">Carmart: Leapmotor Teaser 3</td><td colspan="4"><div class="bg-[#FF7C43] text-white text-xs rounded-full h-5" style="width: 17.8%; margin-left: 67.8%;"></div></td></tr>
+                        <tr class="border-b border-gray-100"><td class="p-3 font-medium">Peugeot: Owner Testimonial 2</td><td colspan="4"><div class="bg-[#003F5C] text-white text-xs rounded-full h-5" style="width: 17.8%; margin-left: 75%;"></div></td></tr>
+                        <tr class="border-b border-gray-100"><td class="p-3 font-medium">Peugeot: Full Range Carousel</td><td></td><td></td><td></td><td class="p-3 text-center text-[#665191] font-bold">●</td></tr>
+                        <tr><td class="p-3 font-medium">Carmart: Leapmotor "Be The First"</td><td colspan="4"><div class="bg-[#D45087] text-white text-xs rounded-full h-5" style="width: 25%; margin-left: 89.3%;"></div></td></tr>
+                    </tbody>
+                </table>
+                 <div class="flex justify-start items-center gap-6 mt-6 flex-wrap">
+                    <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-[#003F5C]"></div><span>Peugeot Boost</span></div>
+                    <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-[#D45087]"></div><span>Carmart Boost</span></div>
+                    <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-[#FF7C43]"></div><span>Leapmotor Teaser</span></div>
+                    <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-[#665191]"></div><span class="font-bold">●</span><span>Organic Post</span></div>
+                 </div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-12 py-6 border-t border-gray-200">
+             <p class="text-gray-600">This infographic provides a strategic overview of the August 2024 social media plan. Let's drive results together.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const data = [
+            { week: 1, date: "Mon, Aug 4", page: "Peugeot", funnel: "TOFU", boostType: "Brand Awareness / Video Views", budget: 40000 },
+            { week: 1, date: "Mon, Aug 4", page: "Carmart", funnel: "TOFU", boostType: "Engagement", budget: 20000 },
+            { week: 1, date: "Wed, Aug 6", page: "Peugeot", funnel: "MOFU", boostType: "Organic", budget: 0 },
+            { week: 1, date: "Fri, Aug 8", page: "Carmart", funnel: "TOFU", boostType: "Reach / Video Views", budget: 35000 },
+            { week: 2, date: "Mon, Aug 11", page: "Peugeot", funnel: "MOFU", boostType: "Engagement", budget: 25000 },
+            { week: 2, date: "Wed, Aug 13", page: "Carmart", funnel: "MOFU", boostType: "Engagement", budget: 15000 },
+            { week: 2, date: "Fri, Aug 15", page: "Peugeot", funnel: "MOFU", boostType: "Organic", budget: 0 },
+            { week: 2, date: "Sat, Aug 16", page: "Carmart", funnel: "TOFU", boostType: "Reach / Engagement", budget: 28000 },
+            { week: 3, date: "Mon, Aug 18", page: "Carmart", funnel: "MOFU", boostType: "Engagement / Video Views", budget: 20000 },
+            { week: 3, date: "Wed, Aug 20", page: "Peugeot", funnel: "MOFU", boostType: "Organic", budget: 0 },
+            { week: 3, date: "Fri, Aug 22", page: "Peugeot", funnel: "TOFU", boostType: "Reach / Video Views", budget: 15000 },
+            { week: 3, date: "Sat, Aug 23", page: "Carmart", funnel: "TOFU", boostType: "Reach / Engagement", budget: 18000 },
+            { week: 4, date: "Mon, Aug 25", page: "Peugeot", funnel: "MOFU", boostType: "Engagement", budget: 25000 },
+            { week: 4, date: "Wed, Aug 27", page: "Peugeot", funnel: "MOFU", boostType: "Organic", budget: 0 },
+            { week: 4, date: "Fri, Aug 29", page: "Carmart", funnel: "BOFU", boostType: "Lead Generation", budget: 40000 },
+        ];
+
+        const peugeotBudget = data.filter(p => p.page === 'Peugeot').reduce((sum, p) => sum + p.budget, 0);
+        const carmartBudget = data.filter(p => p.page === 'Carmart').reduce((sum, p) => sum + p.budget, 0);
+
+        const tofuBudget = data.filter(p => p.funnel.includes('TOFU')).reduce((sum, p) => sum + p.budget, 0);
+        const mofuBudget = data.filter(p => p.funnel.includes('MOFU')).reduce((sum, p) => sum + p.budget, 0);
+        const bofuBudget = data.filter(p => p.funnel.includes('BOFU')).reduce((sum, p) => sum + p.budget, 0);
+        
+        const peugeotPaidCount = data.filter(p => p.page === 'Peugeot' && p.budget > 0).length;
+        const peugeotOrganicCount = data.filter(p => p.page === 'Peugeot' && p.budget === 0).length;
+        const carmartPaidCount = data.filter(p => p.page === 'Carmart' && p.budget > 0).length;
+        const carmartOrganicCount = data.filter(p => p.page === 'Carmart' && p.budget === 0).length;
+
+
+        const brilliantBluesPalette = {
+            primary: '#003F5C',
+            secondary: '#58508D',
+            accent1: '#BC5090',
+            accent2: '#FF6361',
+            accent3: '#FFA600',
+            // Extended for more categories
+            extra1: '#2F4B7C',
+            extra2: '#665191',
+            extra3: '#A05195',
+            extra4: '#D45087',
+            extra5: '#F95D6A',
+            extra6: '#FF7C43',
+        };
+
+        const chartColors = [
+            brilliantBluesPalette.primary, 
+            brilliantBluesPalette.extra4, 
+            brilliantBluesPalette.secondary, 
+            brilliantBluesPalette.accent2,
+            brilliantBluesPalette.accent3
+        ];
+        
+        const funnelColors = [
+            brilliantBluesPalette.extra1,
+            brilliantBluesPalette.extra2,
+            brilliantBluesPalette.extra3,
+        ];
+
+        function wrapLabel(str, maxWidth) {
+            if (typeof str !== 'string' || str.length <= maxWidth) {
+                return str;
+            }
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + ' ' + words[i]).length > maxWidth) {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                } else {
+                    currentLine += ' ' + words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+        
+        const defaultTooltipOptions = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        new Chart(document.getElementById('budgetByPlatformChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Peugeot Page', 'Carmart Page'],
+                datasets: [{
+                    data: [peugeotBudget, carmartBudget],
+                    backgroundColor: chartColors,
+                    borderColor: '#FFFFFF',
+                    borderWidth: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    ...defaultTooltipOptions.plugins,
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    tooltip: {
+                         ...defaultTooltipOptions.plugins.tooltip,
+                        callbacks: {
+                            ...defaultTooltipOptions.plugins.tooltip.callbacks,
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += new Intl.NumberFormat('en-LK', { style: 'currency', currency: 'LKR', minimumFractionDigits: 0 }).format(context.parsed);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('budgetByFunnelChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Awareness (TOFU)', 'Consideration (MOFU)', 'Conversion (BOFU)'],
+                datasets: [{
+                    data: [tofuBudget, mofuBudget, bofuBudget],
+                    backgroundColor: funnelColors,
+                    borderColor: '#FFFFFF',
+                    borderWidth: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    ...defaultTooltipOptions.plugins,
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                     tooltip: {
+                         ...defaultTooltipOptions.plugins.tooltip,
+                        callbacks: {
+                            ...defaultTooltipOptions.plugins.tooltip.callbacks,
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += new Intl.NumberFormat('en-LK', { style: 'currency', currency: 'LKR', minimumFractionDigits: 0 }).format(context.parsed);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        new Chart(document.getElementById('postCountChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Peugeot Page', 'Carmart Page'],
+                datasets: [
+                    {
+                        label: 'Boosted Posts',
+                        data: [peugeotPaidCount, carmartPaidCount],
+                        backgroundColor: brilliantBluesPalette.primary,
+                    },
+                    {
+                        label: 'Organic Posts',
+                        data: [peugeotOrganicCount, carmartOrganicCount],
+                        backgroundColor: brilliantBluesPalette.extra2,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                },
+                plugins: {
+                    ...defaultTooltipOptions.plugins,
+                    legend: {
+                        position: 'top',
+                    },
+                }
+            }
+        });
+        
+    </script>
+</body>
+</html>
